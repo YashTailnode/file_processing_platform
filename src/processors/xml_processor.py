@@ -1,6 +1,16 @@
-with open("../../data.xml", "r", encoding="utf-8") as file:
-    counter = 0
-    for row in file:
-        printed_row = row.strip()
-        counter += 1
-    print(counter)
+from io import StringIO
+
+from .base import FileProcessorStrategy
+
+
+class XmlProcessor(FileProcessorStrategy):
+    file_type = "xml"
+
+    def get_count(self, file_content):
+        counter = 0
+
+        for row in StringIO(file_content):
+            printed_row = row.strip()
+            counter += 1
+
+        return counter
