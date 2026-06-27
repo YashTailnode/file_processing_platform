@@ -1,14 +1,14 @@
 try:
-    from .processors.registry import ProcessorFactory
+    from .factory.strategy_factory import StrategyFactory
 except ImportError:
-    from processors.registry import ProcessorFactory
+    from factory.strategy_factory import StrategyFactory
 
 
 def process_file(file_type, file_content):
     if not file_content or not file_content.strip():
         raise ValueError("File content cannot be empty")
 
-    strategy = ProcessorFactory.create_strategy(file_type)
+    strategy = StrategyFactory.create_strategy(file_type)
     record_count = strategy.get_count(file_content)
     return {"record_count": record_count}
 

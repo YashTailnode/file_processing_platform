@@ -67,7 +67,7 @@ process_file(file_type, file_content)
 Validate empty content
           |
           v
-ProcessorFactory.create_strategy(file_type)
+StrategyFactory.create_strategy(file_type)
           |
           v
 CSV / JSON / XML processor strategy
@@ -83,13 +83,13 @@ Return {"record_count": count}
 
 This project uses Factory + Strategy.
 
-The `ProcessorFactory` selects the correct processor for the requested file type. Each processor implements the `FileProcessorStrategy` abstraction and owns the parsing/counting logic for one file format.
+The `StrategyFactory` selects the correct processor strategy for the requested file type. Each processor implements the `FileProcessorStrategy` abstraction and owns the parsing/counting logic for one file format.
 
 To add a new file type, such as YAML:
 
 1. Create a new processor class that extends `FileProcessorStrategy`.
 2. Implement `get_count(file_content)`.
-3. Register the class in `ProcessorFactory`.
+3. Register the class in `StrategyFactory`.
 
 This keeps the main processing flow unchanged while allowing new formats to be added with minimal changes.
 
