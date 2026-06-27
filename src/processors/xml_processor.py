@@ -1,4 +1,4 @@
-from io import StringIO
+import xml.etree.ElementTree as ET
 
 from .base import FileProcessorStrategy
 
@@ -7,10 +7,9 @@ class XmlProcessor(FileProcessorStrategy):
     file_type = "xml"
 
     def get_count(self, file_content):
-        counter = 0
+        try:
+            root = ET.fromstring(file_content)
+        except ET.ParseError as error:
+            raise ValueError("Invalid XML") from error
 
-        for row in StringIO(file_content):
-            printed_row = row.strip()
-            counter += 1
-
-        return counter
+        return len(list(root))

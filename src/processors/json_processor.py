@@ -7,11 +7,12 @@ class JsonProcessor(FileProcessorStrategy):
     file_type = "json"
 
     def get_count(self, file_content):
-        counter = 0
+        try:
+            parsed_content = json.loads(file_content)
+        except json.JSONDecodeError as error:
+            raise ValueError("Invalid JSON") from error
 
-        for row in file_content.splitlines():
-            parsed_row = json.loads(row)
-            length = len(parsed_row)
-            counter += length
+        if isinstance(parsed_content, list):
+            return len(parsed_content)
 
-        return counter
+        return 1

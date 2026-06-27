@@ -1,3 +1,4 @@
+import csv
 from io import StringIO
 
 from .base import FileProcessorStrategy
@@ -7,9 +8,9 @@ class CsvProcessor(FileProcessorStrategy):
     file_type = "csv"
 
     def get_count(self, file_content):
-        counter = 0
+        rows = list(csv.reader(StringIO(file_content)))
 
-        for row in StringIO(file_content):
-            counter += 1
+        if not rows:
+            return 0
 
-        return counter
+        return len(rows) - 1
